@@ -1,0 +1,9 @@
+#logo {
+    width: 360px;
+    height: 180px;
+}
+#dodajKnjigu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

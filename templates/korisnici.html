@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">BS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('render_knjige')}}">Knjige <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('render_korisnici')}}" disabeled>Korisnici</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <a href="{{url_for('logout')}}" class="btn btn-primary"></a>
+        <i class="fa-solid fa-right-from-bracket"></i>
+    </form>
+      
+    </div>
+  </nav>
+      <div class="container">
+        <div class="row my-5 justify-content-end"> 
+            <a href="{{url_for('korisnik_novi')}}" role="button" class="btn btn-secondary">
+                Dodaj korisnika
+            </a>
+        </div> 
+        <div class="row">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rola</th>
+                    <th scope="col">Akcija</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for korisnik in korisnik %}
+                  <tr>
+                    <td>{{korisnik.Ime}}</td>
+                    <td>{{korisnik.Prezime}}</td>
+                    <td>{{korisnik.Email}}</td>
+                    <td>{{korisnik.Rola}}</td>
+                    <td class="row">
+                        <a href="{{url_for('korisnik_izmena', id=korisnik.KorisnikID)}}" role="button" class="text-warning mx-1"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <form action="{{url_for('korisnik_brisanje', id= korisnik.KorisnikID)}}" method="POST" class="text-danger mx-1">
+                          <button class="text-danger mx-1">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+                    </td> 
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </div>
+      
+{% endblock %}
+   

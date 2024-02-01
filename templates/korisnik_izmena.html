@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container col-lg-2 col-lg-12">
+    <div class="my-5">
+        <h3>Izmena korisnika</h3>
+    </div>
+
+    <form action=" {{url_for('korisnik_izmena', id=korisnik.KorisnikID)}} "  method="POST">
+
+        <div class="form-group">
+            <label for="ime">Ime</label>
+            <input type="text" class="form-control" name="ime" value={{korisnik.Ime}} required>
+        </div>
+
+        <div class="form-group">
+            <label for="prezime">Prezime</label>
+            <input type="text" class="form-control" name="prezime" value={{korisnik.Prezime}} required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" name="email" value={{korisnik.Email}} required>
+        </div>
+
+        <div class="form-group">
+            <select name="rola" class="form-control">
+                <option  selected  disabled>Izaberite rolu</option>
+                <option value="korisnik"   disabled> Korisnik</option>
+                <option value="administrator"    disabled> Administrator</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Lozinka">Lozinka</label>
+            <input type="text" class="form-control" name="lozinka" value="*********" required>
+        </div>
+        <input type="submit" value="Sacuvaj" class="btn btn-primary">
+    </form>
+</div>
+
+{% endblock %}
