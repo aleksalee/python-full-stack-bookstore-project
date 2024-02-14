@@ -12,59 +12,168 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Knjige <span class="sr-only">(current)</span></a>
         </li>
-        {% if (rola == 'administrator') %}
+
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('render_korisnici')}}" disabeled>Korisnici</a>
-        </li>
-        {% endif %}
+
       </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <a href="{{url_for('logout')}}" class="btn btn-primary">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    </form>
       
-      </form>
     </div>
   </nav>
 
 
 <div class ="container">
 
-<div class="row my-5 justify-content-center">
-  {% (if rola == 'administrator') %}
-    <a href="{{url_for('knjiga_nova')}}" role="button" class="btn btn-secondary">
-      Dodaj knjigu
-    </a>
-  {% endif %}
-</div>
+    <div class="row my-5 justify-content-center">
+
+        <a href="{{url_for('knjiga_nova')}}" role="button" class="btn btn-secondary">
+          Dodaj knjigu
+        </a>
+      
+    </div>
+
 
   <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Naslov</th>
-          <th scope="col">Autor</th>
-          <th scope="col">ISBN</th>
-          <th scope="col">Zanr</th>
-          <th scope="col">Cena</th>
-        </tr>
-      </thead>
+    <form action="{{ url_for('render_knjige') }}" method="POST">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">
+                <label for="order_by_naslov" class="header-btn"> 
+                  Naslov
+                </label>
+                <input style="display: none;" id="order_by_naslov" value="Naslov"
+                class="header-btn" type="submit" name="order_by" />
+                {% if order_type == 'asc' and args.order_by == 'Naslov' %}
+                <i class="fas fa-sort-up"></i>
+                {% elif order_type == 'desc' and args.order_by == 'Naslov' %}
+                <i class="fas fa-sort-down"></i>
+                {% else %}
+                <i class="fas fa-sort light-icon"></i>
+                {% endif %}
+              </th>
+              <th scope="col">
+                <label for="order_by_autor" class="header-btn">
+                Autor
+                </label>
+                <input style="display: none;" id="order_by_autor" value="Autor"
+                class="header-btn" type="submit" name="order_by" />
+                {% if order_type == 'asc' and args.order_by == 'Autor' %}
+                <i class="fas fa-sort-up"></i>
+                {% elif order_type == 'desc' and args.order_by == 'Autor' %}
+                <i class="fas fa-sort-down"></i>
+                {% else %}
+                <i class="fas fa-sort light-icon"></i>
+                {% endif %}
+              </th>
+              <th scope="col">
+                <label for="order_by_isbn" class="header-btn">
+                  ISBN
+                </label>
+                {% if order_type == 'asc' and args.order_by == 'ISBN' %}
+                <i class="fas fa-sort-up"></i>
+                {% elif order_type == 'desc' and args.order_by == 'ISBN' %}
+                <i class="fas fa-sort-down"></i>
+                {% else %}
+                <i class="fas fa-sort light-icon"></i>
+                {% endif %}
+                <input style="display: none;" id="order_by_isbn" value="ISBN"
+                class="header-btn" type="submit" name="order_by" />
+              </th>
+              <th scope="col">
+                <label for="order_by_Zanr" class="header-btn">
+                  Zanr
+                </label>
+                
+                {% if order_type == 'asc' and args.order_by == 'Zanr' %}
+                <i class="fas fa-sort-up"></i>
+                {% elif order_type == 'desc' and args.order_by == 'Zanr' %}
+                <i class="fas fa-sort-down"></i>
+                {% else %}
+                <i class="fas fa-sort light-icon"></i>
+                {% endif %}
+                <input style="display: none;" id="order_by_Zanr" value="Zanr"
+                class="header-btn" type="submit" name="order_by" />
+              </th>
+              <th scope="col">
+                <label for="order_by_cena" class="header-btn">
+                  Cena
+                </label>
+                <input style="display: none;" id="order_by_cena" value="cena"
+                class="header-btn" type="submit" name="order_by" />
+                {% if order_type == 'asc' and args.order_by == 'cena' %}
+                <i class="fas fa-sort-up"></i>
+                {% elif order_type == 'desc' and args.order_by == 'cena' %}
+                <i class="fas fa-sort-down"></i>
+                {% else %}
+                <i class="fas fa-sort light-icon"></i>
+                {% endif %}
+              </th>
+            </tr>
+          </thead>
+        <input name="prethodni_order_by" value="{{ args.order_by }}" hidden />
+        <input name="order_type" value="{{ order_type }}" hidden />
+        <input name="page" value="{{ strana }}" hidden />
+      </form>
       <tbody>
         {% for knjiga in knjiga %}
         <tr>
           <td>{{knjiga.KnjigaID}}</td>
-          <td>{{knjiga.Naslov}}</td>
-          <td>{{knjiga.Autor}}</td>
+          <td>{{knjiga.Naslov}}</td></a>
+          <td>{{knjiga.Autor}}</a></td>
           <td>{{knjiga.ISBN}}</td>
           <td>{{knjiga.Zanr}}</td>
           <td>{{knjiga.Cena}}</td>
           <td class="row">
+            <div class="btn-group">
               <a href="{{url_for('knjiga_izmena', id=knjiga.KnjigaID)}}" role="button" class="text-warning mx-1"><i class="fa-solid fa-pen-to-square"></i></a>
-              <form action="" method="POST" class="text-danger mx-1">
-                <button class="text-danger mx-1">
-                  <i class="fas fa-trash"></i>
+                <button class="icon-btn red mb-2 ml-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{knjiga.KnjigaID}}" >
+                  <i class="fas fa-trash-alt"></i>
                 </button>
-              </form>
+              <a href="{{url_for('knjiga',id=knjiga.KnjigaID)}}">
+                <i class="fa-solid fa-eye"></i>
+              </a>
+            </div>
           </td> 
         </tr>
+        <div class="modal fade" id="deleteModal{{knjiga.KnjigaID}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteLabel">Modal brisanje</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Sigurno želite da obrišete knjigu {{ knjiga.Naslov }}?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+                <form action="{{ url_for('knjiga_brisanje', id=knjiga.KnjigaID) }}" method="POST">
+                  <button type="submit" class="btn btn-danger">
+                    Obriši
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         {% endfor %}
       </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" {% if strana=="1" %} disabled {% endif %}><a class="page-link" href="{{prethodna_strana}}">Prethodna</a></li>
+        <li class="page-item" active><a class="page-link" href="#">{{strana}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{sledeca_strana}}">Sledeca</a></li>
+      </ul>
+    </nav>
   </div>
+
+
+  
   {% endblock %}

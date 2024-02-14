@@ -17,8 +17,9 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <a href="{{url_for('logout')}}" class="btn btn-primary"></a>
+        <a href="{{url_for('logout')}}" class="btn btn-primary">
         <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
     </form>
       
     </div>
@@ -30,7 +31,7 @@
             </a>
         </div> 
         <div class="row">
-            <table class="table">
+            <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Ime</th>
@@ -48,18 +49,46 @@
                     <td>{{korisnik.Email}}</td>
                     <td>{{korisnik.Rola}}</td>
                     <td class="row">
+                      <div class="btn-group">
                         <a href="{{url_for('korisnik_izmena', id=korisnik.KorisnikID)}}" role="button" class="text-warning mx-1"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <form action="{{url_for('korisnik_brisanje', id= korisnik.KorisnikID)}}" method="POST" class="text-danger mx-1">
-                          <button class="text-danger mx-1">
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </form>
+                        <button class="icon-btn red mb-2 ml-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{korisnik.KorisnikID}}" >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
                     </td> 
                   </tr>
+                  <div class="modal fade" id="deleteModal{{korisnik.KorisnikID}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteLabel">Modal brisanje</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Sigurno želite da obrišete korisnika {{ korisnik.Ime }} {{korisnik.Prezime}}?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+                          <form action="{{ url_for('korisnik_brisanje', id=korisnik.KorisnikID) }}" method="POST">
+                            <button type="submit" class="btn btn-danger">
+                              Obriši
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {% endfor %}
                 </tbody>
               </table>
         </div>
+        <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" {% if strana=="1" %} disabled {% endif %}><a class="page-link" href="{{prethodna_strana}}">Prethodna</a></li>
+        <li class="page-item" active><a class="page-link" href="#">{{strana}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{sledeca_strana}}">Sledeca</a></li>
+      </ul>
+    </nav>
       </div>
       
 {% endblock %}

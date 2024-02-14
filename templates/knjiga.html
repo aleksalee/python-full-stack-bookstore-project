@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">BS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <a class="nav-link" href="#">Knjige <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="{{url_for('render_korisnici')}}" disabeled>Korisnici</a>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a href="{{url_for('logout')}}" class="btn btn-primary">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+        </form>
+        
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        
+            <div class="form-group">
+                <label for="naslov">Naslov</label>
+                <input type="text" class="form-control" name="naslov" value={{knjiga.Naslov}} readonly>
+            </div>
+            <div class="form-group">
+                <label for="autor">Autor</label>
+                <input type="text" class="form-control" name="autor" value={{knjiga.Autor}} readonly>
+            </div>
+            <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input type="text" class="form-control" name="isbn" value={{knjiga.ISBN}} readonly>
+            </div>
+            <div class="form-group">
+                <label for="autor">Zanr</label>
+                <input type="text" class="form-control" name="zanr" value={{knjiga.Zanr}} readonly>
+            </div>
+            <div class="form-group">
+                <label for="cena">Cena</label>
+                <input type="text" class="form-control" name="autor" value={{knjiga.Cena}} readonly>
+            </div>
+            <br>
+            
+       
+    </div>
+
+
+{% endblock %}
