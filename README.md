@@ -1,1 +1,3 @@
-"# python-full-stack-bookstore-project" 
+Projekat iz predmeta WEB PROGRAMIRANJE
+-BookStore
+-Aleksa Aleksić SRT 31/21
